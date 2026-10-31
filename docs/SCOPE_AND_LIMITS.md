@@ -1,6 +1,6 @@
 # How to read the numbers
 
-Every experiment in this repo uses a recorded dataset, model size, and gate script. The files next to each run (`results.json`, `results.md`) are the source for tables in the README and project summary.
+Each experiment in this project was run on a specific set of text, with a specific model size and a specific set of pass/fail checks. Those details are saved next to every run in `results.json` and `results.md`, and every number in the README comes from those files. This page explains what the results show, what they don't show yet, and the mistakes to avoid when comparing one experiment's numbers with another's.
 
 ## What the runs established
 
