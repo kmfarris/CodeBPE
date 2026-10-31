@@ -1,15 +1,32 @@
 [project]
-name = "prcf"
+name = "codebpe"
 version = "0.1.0"
-description = "Positioned Residual Code Fingerprint — Phase A/B benches"
+description = "Byte-pair encoding over collision-free word codes (Positioned Residual Code Fingerprints): lossless, edit-local tokenization."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Kelly Farris" }]
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.26"]
+keywords = ["tokenization", "tokenizer", "bpe", "byte-pair-encoding", "language-model", "nlp"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
+lm = ["torch>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/kmfarris/CodeBPE"
+Repository = "https://github.com/kmfarris/CodeBPE"
 
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
