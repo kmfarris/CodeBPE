@@ -1,84 +1,63 @@
-# PRCF — codes as an alternative to normal tokens
+# customLLM — PRCF tokenization research
 
-## Working-scale LM (full WikiText-2) — PASS
+BPE splits where letter patterns repeat. Change one word mid-paragraph and the token sequence can shift far from the edit—bad for diff tools, entity swaps, and any model that might treat tokens as stable handles. **Positioned Residual Code Fingerprints (PRCF)** build a word-aligned code stream: in-vocab items map to injective bucket+slot ids, out-of-vocabulary text escapes losslessly, and **CodeBPE** merges adjacent codes the way classic BPE merges characters—without tearing through escape tokens.
 
-Full WikiText-2 (~2.0M / 209k words), frozen BucketSlot + BucketCodeBPE, matched 6L/384d LMs vs text BPE.
+**What this repo is for:** run the bake-offs, read the JSON, reproduce the working-scale LM. It is tokenizer and small-LM science, not a chat product.
 
-```bash
-PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.working_lm.run
-# locality only (after codecs + results exist):
-PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.working_lm.run --rescore-locality
-```
+## Status
 
-See [`experiments/working_lm/results.md`](experiments/working_lm/results.md).
+| Milestone | State |
+|-----------|--------|
+| Phases A–B | Edit localization, reconstruction, entity code swaps on controlled tests |
+| Bucket+slot codec (dir5) | Injective in-vocab packing; hybrid OOV decode (dir4 M1) |
+| WikiText-2 working LM | **Complete** — 6L/384d matched body; CodeBPE train BPC **1.76** vs text BPE **1.88**; train packing **0.227** vs **0.240** sym/char ([`results.json`](experiments/working_lm/results.json)) |
+| Direction 3 scale ladder | **Failed** coarseness gates at ~100k-word slice; numbers kept |
+| Beyond WikiText-2 | Not started; industrial subword baselines not yet in-tree |
 
-## Dir6 — BucketCodeBPE + LM bake-off — PASS
-
-Merges adjacent bucket+slot ids only (never through ESC). Train packing beats text BPE; matched 3L/160d LM beats text BPE on BPC.
-
-```bash
-PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.dir6_bucket_codebpe.run_bakeoff
-```
-
-See [`experiments/dir6_bucket_codebpe/results.md`](experiments/dir6_bucket_codebpe/results.md).
-
-## Dir5 — Bucket+slot codec — PASS
-
-In-vocab words get injective `(RQ_bucket, slot)` packed as one id (no river/rider smash). OOV/punct still ESC+chars.
+Validation packing stays looser than train; mean merged unit length is still modest. [`docs/SCOPE_AND_LIMITS.md`](docs/SCOPE_AND_LIMITS.md) · [`project_summary.md`](project_summary.md)
 
 ```bash
-PYTHONPATH=src:. .venv/bin/python -u -m experiments.dir5_bucket_slot.run_bench
+pip install -e '.[dev]' && python -m pytest tests/
 ```
 
-See [`experiments/dir5_bucket_slot/results.md`](experiments/dir5_bucket_slot/results.md).
+## Working-scale LM (full WikiText-2)
 
-## Dir4 — OOV-safe hybrid decode — M1 PASS
-
-Legacy PRCF nearest-word decode fails held-out chrF (~0.65). HybridCodec uses RQ for canonical in-vocab words and ESC+chars for OOV/collisions.
+Frozen BucketSlot + BucketCodeBPE, matched 6L/384d LMs vs text BPE.
 
 ```bash
-PYTHONPATH=src:. .venv/bin/python -u -m experiments.dir4_oov_decode.run_m0
-PYTHONPATH=src:. .venv/bin/python -u -m experiments.dir4_oov_decode.run_m1
+PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. python -u -m experiments.working_lm.run
+PYTHONPATH=src:. python -u -m experiments.working_lm.run --rescore-locality
 ```
 
-See [`experiments/dir4_oov_decode/results_m1.md`](experiments/dir4_oov_decode/results_m1.md).
+[`experiments/working_lm/results.md`](experiments/working_lm/results.md)
 
-## Dir3 — Scale ladder (WikiText-2) — budget 30 FAIL (useful)
+## Earlier directions (repro commands)
 
-~100k-word train slice, frequency-stable CodeBPE (`allow_freq1=False`), matched tiny LM vs text BPE.
+**Dir6 — BucketCodeBPE + LM bake-off**
 
 ```bash
-PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.dir3_scale_ladder.run_ladder --budget 30
+PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. python -u -m experiments.dir6_bucket_codebpe.run_bakeoff
 ```
 
-See [`experiments/dir3_scale_ladder/results.md`](experiments/dir3_scale_ladder/results.md).
-
-## Dir2b — Coarse CodeBPE + GPU bake-off — PASS (toy; freq=1 caveat)
+**Dir5 — Bucket+slot codec**
 
 ```bash
-PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.dir2b_coarse_units.run_bakeoff
+PYTHONPATH=src:. python -u -m experiments.dir5_bucket_slot.run_bench
 ```
 
-## Direction 2 — mild CodeBPE baseline — PASS
+**Dir4 — OOV-safe hybrid decode (M1)**
 
 ```bash
-PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.dir2_code_bpe.run_bakeoff
+PYTHONPATH=src:. python -u -m experiments.dir4_oov_decode.run_m0
+PYTHONPATH=src:. python -u -m experiments.dir4_oov_decode.run_m1
 ```
 
-## Direction 1 — Neural LM bake-off — PASS
+**Dir3 — scale ladder (failed gates, useful metrics)**
 
 ```bash
-PYTHONPATH=src:. /home/kelly/miniconda3/bin/python -u -m experiments.dir1_neural_lm.run_bakeoff
+PRCF_REQUIRE_GPU=1 PYTHONPATH=src:. python -u -m experiments.dir3_scale_ladder.run_ladder --budget 30
 ```
 
-## Phases A–C (foundation)
+**Dir2b / Dir2 / Dir1 / Phases A–C** — see [`experiments/`](experiments/) and per-directory `results.md`.
 
-```bash
-PYTHONPATH=src:. .venv/bin/python -m experiments.phase_a.run_bench
-PYTHONPATH=src:. .venv/bin/python -m experiments.phase_b.run_bench
-PYTHONPATH=src:. .venv/bin/python -m experiments.phase_c.run_bench
-```
-
-Neural runs need conda Python + GPU outside sandbox (`PRCF_REQUIRE_GPU=1`). `.venv` has numpy for A–C.
-
-See [`project_summary.md`](project_summary.md) for findings and [`docs/SCOPE_AND_LIMITS.md`](docs/SCOPE_AND_LIMITS.md) for metric scope. Tests: `pip install -e '.[dev]' && python -m pytest tests/`.
+Neural runs expect GPU when `PRCF_REQUIRE_GPU=1`. Phases A–C run on CPU with numpy in a venv.
