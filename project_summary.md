@@ -3,7 +3,7 @@
 **Project:** `customLLM` / PRCF (Positioned Residual Code Fingerprints)  
 **Question:** If we rethink tokenization — what we cut text into before a language model sees it — what do we gain?
 
-This project is **only** about that substrate: structured codes instead of usual BPE/WordPiece pieces. It is not about building a new chatbot or claiming a “smarter” model.
+The purpose is to measure that substrate: structured codes instead of usual BPE/WordPiece pieces, and a small language model trained on those codes.
 
 ---
 
@@ -58,7 +58,7 @@ Those are the hypothesized payoffs of an alternative tokenizer. Whether they win
 5. **Locality scoring must use codec index space** — bare `tokenize()` gold vs `split()` streams falsely failed (0.39); remapped gold → **1.00**.
 6. **First Dir6 unit attempt failed** (OOV E-atoms → UNK); fixed by lossless reconstruct + ESC expansion in LM encode — not a silent pass.
 
-**Next:** keep Cursor plans as execution authority; larger data / stronger coarseness only if the plan calls for it.
+**Next:** SentencePiece or unigram with a matched vocabulary on the same split; then larger data and stronger coarseness if those baselines still favor PRCF.
 
 ---
 

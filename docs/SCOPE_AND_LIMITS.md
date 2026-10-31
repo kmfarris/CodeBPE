@@ -1,35 +1,22 @@
-# Evaluation scope and limitations
+# How to read the numbers
 
-Metrics here assume fixed datasets, model sizes, and gate scripts recorded next to each run. Below: supported conclusions, excluded claims, and common misreadings when comparing tables across directions.
+Every experiment in this repo uses a recorded dataset, model size, and gate script. The files next to each run (`results.json`, `results.md`) are the source for tables in the README and project summary.
 
-## What the record supports
+## What the runs established
 
-**Reconstructibility and locality.** On WikiText-2-scale bucket+slot codes, single-word edits remain localized in code space, and decode returns readable text. The working-scale run documents invertibility and ±2 locality in codec index space (`experiments/working_lm/results.json`).
+On WikiText-2-scale **bucket+slot** codes, a one-word edit stays in a small region of the code stream, and decoding returns the original text (`experiments/working_lm/results.json`).
 
-**Matched language models.** Under a fixed body (six layers, 384-dimensional hidden states), a CodeBPE alphabet over bucket ids achieves lower train bits-per-character than text BPE on the same corpus split. That is a controlled comparison between alphabets—not a claim about production-scale perplexity.
+With two copies of the same small language model (six layers, 384-wide hidden states), training on CodeBPE-over-buckets uses fewer bits per character on the **training** split than training on ordinary text BPE. That comparison holds the model body fixed so the alphabet is what differs.
 
-**Direction 3.** The scale ladder failed its predefined coarseness gates. Those runs remain in the tree because negative results constrain what the merge policy can promise at intermediate scale.
+Direction 3, a coarser-merge ladder on a ~100k-word slice, missed its coarseness gates. Those logs stay in the tree so later merge work has a floor, not only the passing WikiText-2 run.
 
-## What lies outside current evidence
+## What still needs work
 
-Web-scale and multilingual tokenization. Inference economics against industrial subword toolchains at billion-token scale. Phrase-level compression: mean merged unit length stays near word scale (~1.4 codes after frequency-filtered merges).
+- **Web-scale and other languages** are not measured here.
+- **Cost vs industrial tokenizers** (SentencePiece and similar) at large token counts is not measured here.
+- **Phrase-sized pieces:** after frequency-filtered merges, a typical merged unit is still about 1.4 codes long—closer to a word than a long phrase.
+- **Validation packing** is looser than train packing (more unknown words to spell out on held-out text). Always quote both columns from `experiments/working_lm/results.json`.
+- **Vocabulary size** changes by experiment. Early directions used smaller vocabs; `working_lm` uses the full WikiText-2 word list. Mixing tables without that note misleads.
+- **Model checkpoints** (`.pt`) are not in git. Rebuild with `python -m experiments.working_lm.run`.
 
-## Reading the metrics
-
-**Train and validation packing move together but not identically.** CodeBPE validation symbols-per-character exceed train when held-out text triggers escape and out-of-vocabulary paths. Report both columns from `experiments/working_lm/results.json`.
-
-**Vocabulary scale differs by direction.** Early experiments used smaller vocabs; `working_lm` uses the full WikiText-2 word inventory. Do not merge tables without noting the configuration.
-
-**Bucket-path rates are not a single headline ratio.** Direction 5 reports bucket-path coverage alongside BPE packing on comparable settings. Injective in-vocab coding improves reconstructibility; aggregate packing gains depend on corpus and merge budget.
-
-**Locality labels live in codec space.** Gold edit regions are defined on `split()` streams. Scoring against raw `tokenize()` output produced false negatives in early runs; the remapped protocol is documented in `project_summary.md`.
-
-**Checkpoints stay out of git.** Large `.pt` weights are gitignored. Regenerate with `python -m experiments.working_lm.run` (see root `README.md`).
-
-## Baselines a formal write-up would still add
-
-SentencePiece or unigram tokenization with matched vocabulary on the same WikiText-2 split. A single script emitting validation packing beside train metrics for every direction cited in prose.
-
-## Artifacts
-
-Gate definitions, commands, and numeric outputs: `experiments/*/results.json` and companion `results.md` files.
+A write-up that compared SentencePiece or unigram on the same split, with validation packing next to train packing in one script output, would close the most important remaining baseline gap.
