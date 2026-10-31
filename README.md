@@ -13,7 +13,7 @@ CodeBPE tests whether the tokenizer's alphabet can be made stable and word-align
 ## How it works
 
 1. **Positioned Residual Code Fingerprints (PRCF).** Each vocabulary word is assigned a code made of a *bucket* (a coarse group) and a *slot* (its position within that group). The assignment is injective, meaning no two words share a code, so every code decodes to exactly one word.
-2. **Escape spell-out.** Words outside the vocabulary are emitted as an escape marker followed by their characters. Every input can be encoded, and decoding reproduces the original text exactly.
+2. **Escape spell-out.** Words outside the vocabulary are emitted as an escape marker followed by their characters. Every input can be encoded, and spelled-out words decode exactly.
 3. **CodeBPE merges.** Standard BPE is trained over the code stream instead of the character stream. Frequently adjacent codes are merged into single tokens, so merges grow from whole-word units.
 4. **Matched bake-off.** Two language models with identical architecture (6 layers, 384-dimensional hidden states, the same number of non-embedding parameters) are trained for the same number of steps on the same WikiText-2 data. One uses standard text BPE and the other uses CodeBPE. Because the model body is held fixed, any difference in results comes from the tokenizer.
 
@@ -23,15 +23,16 @@ Quality is scored in **bits per character (BPC)** on held-out validation text. B
 
 Measured on WikiText-2 (about 2 million training words from Wikipedia):
 
-- **Lossless round trip.** Encoding and then decoding reproduced the original text exactly, including out-of-vocabulary words (chrF 1.00, exact out-of-vocabulary recovery 1.00).
+- **Round trip exact up to letter case.** Encoding and then decoding reproduced the original words, including out-of-vocabulary words spelled out by escape (exact out-of-vocabulary recovery 1.00). Capitalization of in-vocabulary words isn't preserved: each word decodes to one stored spelling, so about 11% of validation words come back with different capitalization.
 - **Edit locality.** In 300 one-word edit tests, comparing the code streams before and after the edit pinpointed the edited word exactly every time (1.00 exact, against a target of 0.80 within ±2 positions).
-- **Better modeling at matched model size.** The CodeBPE model reached 1.76 BPC on validation text, compared with 1.88 for text BPE, which is 6% lower. Validation perplexity was 14.6 vs 17.4.
+- **Lower BPC, on an unequal comparison.** The CodeBPE model reached 1.76 BPC on validation text, compared with 1.88 for text BPE. The text BPE model also has to predict capitalization and the CodeBPE model doesn't, so part or all of that gap may come from case. A case-matched rerun is in progress.
 - **Tighter packing on training text.** CodeBPE used 0.227 tokens per character on the training split, against 0.240 for text BPE.
 
 Earlier stages established that bucket+slot codes localize which word changed between two versions of a sentence, and that entity names can be substituted directly in code form. The stage-by-stage record is in [`project_summary.md`](project_summary.md).
 
 ## Areas still needing work
 
+- **Letter case.** The codes don't carry capitalization, which makes decoding lossy and the BPC comparison unequal. Two fixes are underway: a baseline trained on lowercased text, for a case-matched comparison, and case markers in CodeBPE so it round-trips exactly.
 - **Held-out packing.** On validation text, more words fall outside the vocabulary and have to be spelled out, so CodeBPE packs looser than text BPE there (0.268 vs 0.242 tokens per character). The vocabulary is built from the training set, and coverage of unseen text limits how compact the encoding can be.
 - **Vocabulary and embedding cost.** The CodeBPE vocabulary has 59,117 entries, against 10,000 for text BPE, so the embedding tables are larger even though the model bodies are identical (33.4M vs 14.6M total parameters).
 - **Phrase-level merges.** Merged units still average about 1.4 codes, so they are close to word-sized. A scale-ladder experiment aimed at coarser, phrase-length units missed its targets, and its logs are kept in `experiments/dir3_scale_ladder/`.
