@@ -1,6 +1,6 @@
 # Evaluation scope and limitations
 
-Every number in this repository sits inside a specific experimental contract. This page states that contract: what the artifacts establish, what they do not, and how to read the metrics without mixing configurations.
+Metrics here assume fixed datasets, model sizes, and gate scripts recorded next to each run. Below: supported conclusions, excluded claims, and common misreadings when comparing tables across directions.
 
 ## What the record supports
 
