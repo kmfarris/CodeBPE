@@ -1,10 +1,10 @@
 cff-version: 1.2.0
-title: "PRCF: Positioned Residual Code Fingerprints (customLLM)"
+title: "CodeBPE: Positioned Residual Code Fingerprints with byte-pair merges"
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: Farris
     given-names: Kelly
-repository-code: "https://github.com/kmfarris/customLLM"
+repository-code: "https://github.com/kmfarris/CodeBPE"
 license: MIT
 keywords:
   - tokenization

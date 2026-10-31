@@ -6,7 +6,7 @@ Each experiment in this project was run on a specific set of text, with a specif
 
 On WikiText-2-scale **bucket+slot** codes, a one-word edit stays in a small region of the code stream, and decoding returns the original text (`experiments/working_lm/results.json`).
 
-With two copies of the same small language model (six layers, 384-wide hidden states), training on CodeBPE-over-buckets uses fewer bits per character on the **training** split than training on ordinary text BPE. That comparison holds the model body fixed so the alphabet is what differs.
+With two copies of the same small language model (six layers, 384-wide hidden states), training on CodeBPE-over-buckets uses fewer bits per character on the **validation** split than training on ordinary text BPE. That comparison holds the model body fixed so the alphabet is what differs.
 
 Direction 3, a coarser-merge ladder on a ~100k-word slice, missed its coarseness gates. Those logs stay in the tree so later merge work has a floor, not only the passing WikiText-2 run.
 

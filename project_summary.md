@@ -1,6 +1,6 @@
 # Project summary: an alternative to standard tokenization
 
-**Project:** `customLLM` / PRCF (Positioned Residual Code Fingerprints)  
+**Project:** CodeBPE / PRCF (Positioned Residual Code Fingerprints)  
 **Question:** If we rethink tokenization — what we cut text into before a language model sees it — what do we gain?
 
 The purpose is to measure that substrate: structured codes instead of usual BPE/WordPiece pieces, and a small language model trained on those codes.
