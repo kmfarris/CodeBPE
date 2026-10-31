@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "gates": {
+    "chrf_min": 0.9,
+    "oov_exact_min": 0.95
+  },
+  "measured": {
+    "chrf_valid": 1.0,
+    "oov_exact_acc": 1.0,
+    "n_oov": 6082,
+    "n_oov_exact": 6082,
+    "hybrid_symbols_per_char": 0.4392982771771417,
+    "legacy_prcf_symbols_per_char": 0.16255404318957423,
+    "text_bpe_symbols_per_char": 0.31308037278790707,
+    "n_in_vocab": 6066,
+    "min_count": 2
+  },
+  "gate_checks": {
+    "chrf_ok": true,
+    "oov_exact_ok": true
+  }
+}

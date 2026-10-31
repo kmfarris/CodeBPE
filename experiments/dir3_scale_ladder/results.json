@@ -1,0 +1,102 @@
+{
+  "budget": 30,
+  "device": "cuda",
+  "data": {
+    "train_path": "/home/kelly/projects/customLLM/data/wikitext2_train_slice.txt",
+    "valid_path": "/home/kelly/projects/customLLM/data/wikitext2_valid_slice.txt",
+    "train_paragraphs": 827,
+    "valid_paragraphs": 202,
+    "train_words": 100013,
+    "valid_words": 20067,
+    "train_words_cap": 100000,
+    "valid_words_cap": 20000
+  },
+  "stage15": {
+    "passed": false,
+    "pass_via": "chrf_fail",
+    "gates": {
+      "chrf_min": 0.85,
+      "symbols_per_char_leq_text_bpe": true
+    },
+    "measured": {
+      "chrf_valid": 0.6410573264107474,
+      "code_symbols_per_char": 0.11015346672888544,
+      "text_bpe_symbols_per_char": 0.31308037278790707,
+      "code_symbols_per_word": 0.6776421217676016,
+      "mean_unit_len_codes": 1.475705195821566,
+      "n_merges": 6655,
+      "n_merges_freq1": 0,
+      "n_merges_freq2": 6655,
+      "merge_freq_hist": {
+        "freq_1": 0,
+        "freq_2_4": 5578,
+        "freq_5_9": 744,
+        "freq_10_plus": 333
+      },
+      "code_vocab": 15697,
+      "text_bpe_vocab": 2000
+    },
+    "walls_s": {
+      "data": 4.849747707834467,
+      "prcf": 4.172166822012514,
+      "code_bpe": 49.160654358100146,
+      "stage15_total": 200.9568588770926
+    }
+  },
+  "units": {
+    "n_merges": 6655,
+    "n_merges_freq2": 6655,
+    "n_merges_freq1": 0,
+    "vocab_size": 15697,
+    "mean_unit_len_codes": 1.475705195821566,
+    "mean_expansion_table_len": 1.6328874156505269,
+    "max_unit_len_codes": 27,
+    "symbols_per_word": 0.6776421217676016,
+    "train_wall_s": 49.160654358100146,
+    "merge_freq_hist": {
+      "freq_1": 0,
+      "freq_2_4": 5578,
+      "freq_5_9": 744,
+      "freq_10_plus": 333
+    }
+  },
+  "stage30": {
+    "passed": false,
+    "lm_bpc_pass": false,
+    "bpc_ratio_code_over_textbpe": 1.0512377851957393,
+    "gate_bpc_ratio_max": 1.05,
+    "shared_train": {
+      "steps": 2000,
+      "batch": 8,
+      "lr": 0.003,
+      "d_model": 160,
+      "n_layers": 3,
+      "n_heads": 4,
+      "max_len": 64
+    },
+    "code_bpe": {
+      "nll_nats": 75716.36616134644,
+      "n_target_tokens": 8095,
+      "perplexity": 11538.831460666237,
+      "bpc": 1.029378861033071,
+      "symbols_per_char": 0.1353304811624795,
+      "vocab_size": 15697,
+      "params_total": 3449920,
+      "params_non_embed": 928160
+    },
+    "text_bpe": {
+      "nll_nats": 72025.91766357422,
+      "n_target_tokens": 11719,
+      "perplexity": 466.883855933985,
+      "bpc": 0.9792064892734063,
+      "symbols_per_char": 0.34833864188921765,
+      "vocab_size": 2000,
+      "params_total": 1258400,
+      "params_non_embed": 928160
+    },
+    "lm_wall_s": 23.901798418955877,
+    "elapsed_s": 245.1913214349188
+  },
+  "passed": false,
+  "stopped_reason": "budget_30"
+}

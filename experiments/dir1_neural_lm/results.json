@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "gate_bpc_ratio_max": 1.05,
+  "bpc_ratio_span_over_bpe": 0.18764916000228862,
+  "device": "cpu",
+  "shared_train": {
+    "steps": 800,
+    "batch": 16,
+    "lr": 0.003,
+    "d_model": 128,
+    "n_layers": 2,
+    "n_heads": 4,
+    "max_len": 64
+  },
+  "span": {
+    "nll_nats": 6247.16641998291,
+    "n_target_tokens": 787,
+    "perplexity": 2801.6104953669956,
+    "bpc": 0.5658435468180188,
+    "symbols_per_char": 0.04940984429934706,
+    "vocab_size": 2051,
+    "params_total": 667520,
+    "params_non_embed": 396800,
+    "span_size": 3
+  },
+  "bpe": {
+    "nll_nats": 33291.73666381836,
+    "n_target_tokens": 6409,
+    "perplexity": 180.28321792332432,
+    "bpc": 3.015433412071323,
+    "symbols_per_char": 0.402373179306881,
+    "vocab_size": 500,
+    "params_total": 468992,
+    "params_non_embed": 396800
+  },
+  "n_train": 955,
+  "n_test": 168
+}

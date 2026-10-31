@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "gates": {
+    "chrf_holdout": 0.85,
+    "localize_within2": 0.7,
+    "entity_swap_exact": 0.5
+  },
+  "reconstruction": {
+    "chrf_holdout": 0.9329519236676318,
+    "chrf_train_sample": 0.9367477178944962
+  },
+  "localization": {
+    "exact_acc": 1.0,
+    "within2_acc": 1.0,
+    "n": 504
+  },
+  "entity_swap": {
+    "exact_acc": 0.895,
+    "name_acc": 0.895,
+    "n": 200
+  },
+  "codebook_usage_per_depth": [
+    0.98828125,
+    0.9296875
+  ],
+  "model_path": "/home/kelly/projects/customLLM/experiments/phase_b/model.json",
+  "n_train": 1379,
+  "n_test": 168,
+  "n_code_to_word": 4440,
+  "n_vocab": 4725
+}

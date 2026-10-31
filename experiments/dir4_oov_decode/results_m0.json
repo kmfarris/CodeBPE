@@ -1,0 +1,15 @@
+{
+  "min_count": 2,
+  "n_train_lines": 827,
+  "n_valid_lines": 202,
+  "n_valid_words": 17208,
+  "n_oov_words": 3223,
+  "oov_word_rate": 0.18729660622966063,
+  "n_in_vocab_types": 6066,
+  "chrf_valid_mean": 0.6487120370279315,
+  "chrf_zero_oov_lines_mean": 0.7464500520056075,
+  "chrf_with_oov_lines_mean": 0.6477346568781548,
+  "n_zero_oov_lines": 2,
+  "n_with_oov_lines": 200,
+  "decode_path": "code_to_word_or_nearest_word"
+}

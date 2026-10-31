@@ -1,0 +1,69 @@
+{
+  "device": "cuda",
+  "unit_gates": {
+    "mean_unit_len_ok": true,
+    "symbols_per_word_ok": true,
+    "chrf_ok": true,
+    "gates": {
+      "mean_unit_len_min": 2.0,
+      "symbols_per_word_max": 0.65,
+      "chrf_min": 0.9
+    },
+    "measured": {
+      "mean_unit_len_codes": 2.0,
+      "symbols_per_word": 0.4933626580787055,
+      "chrf_test": 0.9379619300018534,
+      "chrf_train": 0.934631233080798
+    }
+  },
+  "units": {
+    "type": "code_bpe_coarse",
+    "n_merges": 6445,
+    "n_merges_freq2": 600,
+    "n_merges_freq1": 5845,
+    "vocab_size": 3658,
+    "mean_unit_len_codes": 2.0,
+    "mean_expansion_table_len": 4.553853253345639,
+    "max_unit_len_codes": 17,
+    "symbols_per_word": 0.5,
+    "symbols_per_word_train_encode": 0.4933626580787055,
+    "chrf_train": 0.934631233080798,
+    "chrf_test": 0.9379619300018534
+  },
+  "n_train": 955,
+  "n_test": 168,
+  "lm_ran": true,
+  "passed": true,
+  "pass_via": "lm_and_units",
+  "gate_bpc_ratio_max": 1.05,
+  "bpc_ratio_code_over_textbpe": 0.35927840459327814,
+  "shared_train": {
+    "steps": 1000,
+    "batch": 8,
+    "lr": 0.003,
+    "d_model": 160,
+    "n_layers": 3,
+    "n_heads": 4,
+    "max_len": 64
+  },
+  "code_bpe": {
+    "nll_nats": 12742.872299194336,
+    "n_target_tokens": 1105,
+    "perplexity": 101926.89610855204,
+    "bpc": 1.1541988116982052,
+    "symbols_per_char": 0.07427172275238574,
+    "vocab_size": 3658,
+    "params_total": 1523680,
+    "params_non_embed": 928160
+  },
+  "text_bpe": {
+    "nll_nats": 35467.96060180664,
+    "n_target_tokens": 6409,
+    "perplexity": 253.17641414438563,
+    "bpc": 3.2125471415539666,
+    "symbols_per_char": 0.402373179306881,
+    "vocab_size": 500,
+    "params_total": 1018400,
+    "params_non_embed": 928160
+  }
+}

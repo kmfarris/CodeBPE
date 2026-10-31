@@ -1,0 +1,32 @@
+{
+  "n_paragraphs": 1123,
+  "n_pairs": 3369,
+  "gate": 0.95,
+  "passed": true,
+  "positioned_trigram": {
+    "exact_acc": 1.0,
+    "within1_acc": 1.0,
+    "mean_abs_err": 0.0
+  },
+  "token_sequence_diff": {
+    "exact_acc": 1.0,
+    "note": "sanity upper bound for equal-length single substitutions"
+  },
+  "simhash_negative_control": {
+    "fraction_hashes_differ": 1.0,
+    "localization_acc": 0.0,
+    "note": "collapsed 64-bit SimHash cannot localize; reported as 0%"
+  },
+  "by_length_bucket": {
+    "mid_12_19": {
+      "n": 2823,
+      "exact_acc": 1.0,
+      "within1_acc": 1.0
+    },
+    "short_<12": {
+      "n": 546,
+      "exact_acc": 1.0,
+      "within1_acc": 1.0
+    }
+  }
+}

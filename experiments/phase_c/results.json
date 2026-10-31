@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "pass_via": "modeling_match",
+  "gates": {
+    "bpc_ratio_max": 1.05,
+    "chrf_min": 0.8,
+    "phrase_localize_min": 0.7,
+    "compression_ratio_max": 0.55
+  },
+  "span": {
+    "bpc": 0.7048864879396611,
+    "symbols_per_char": 0.04940984429934706,
+    "lm_vocab_size": 4099,
+    "span_size": 3,
+    "chrf_reconstruct": 0.9379619300018534,
+    "phrase_localize_within1": 1.0,
+    "phrase_swap_acc": 0.85,
+    "n_edit_pairs": 300,
+    "note": "LM atoms = hashed groups of token-RQ codes; decode uses token RQ"
+  },
+  "bpe": {
+    "bpc": 2.688858282920776,
+    "symbols_per_char": 0.402373179306881,
+    "vocab_size": 500
+  },
+  "comparisons": {
+    "bpc_ratio_span_over_bpe": 0.2621508513174511,
+    "compression_ratio_span_over_bpe": 0.12279606802933374
+  },
+  "n_train": 955,
+  "n_test": 168
+}

@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: "PRCF: Positioned Residual Code Fingerprints (customLLM)"
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Farris
+    given-names: Kelly
+repository-code: "https://github.com/kmfarris/customLLM"
+license: MIT
+keywords:
+  - tokenization
+  - language-model
+  - codebook
+  - locality

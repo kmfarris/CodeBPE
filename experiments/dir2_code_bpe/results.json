@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "gate_bpc_ratio_max": 1.05,
+  "bpc_ratio_code_over_textbpe": 0.516363199848474,
+  "device": "cuda",
+  "units": {
+    "type": "code_bpe",
+    "n_merges": 600,
+    "vocab_size": 4912,
+    "mean_unit_len_codes": 1.1336673346693387,
+    "max_unit_len_codes": 4,
+    "chrf_train": 0.934631233080798,
+    "chrf_test": 0.9379619300018534
+  },
+  "shared_train": {
+    "steps": 1000,
+    "batch": 8,
+    "lr": 0.003,
+    "d_model": 160,
+    "n_layers": 3,
+    "n_heads": 4,
+    "max_len": 64
+  },
+  "code_bpe": {
+    "nll_nats": 18314.349628448486,
+    "n_target_tokens": 1948,
+    "perplexity": 12107.941666759072,
+    "bpc": 1.6588411216768748,
+    "symbols_per_char": 0.12230035158211953,
+    "vocab_size": 4912,
+    "params_total": 1724320,
+    "params_non_embed": 928160
+  },
+  "text_bpe": {
+    "nll_nats": 35467.96060180664,
+    "n_target_tokens": 6409,
+    "perplexity": 253.17641414438563,
+    "bpc": 3.2125471415539666,
+    "symbols_per_char": 0.402373179306881,
+    "vocab_size": 500,
+    "params_total": 1018400,
+    "params_non_embed": 928160
+  },
+  "n_train": 955,
+  "n_test": 168,
+  "vs_dir1": {
+    "dir1": "2L/128d/800 steps, fixed hash-3 spans",
+    "dir2": "3L/160d/1000 steps, CodeBPE variable units"
+  }
+}
